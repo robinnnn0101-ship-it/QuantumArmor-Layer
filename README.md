@@ -1,7 +1,7 @@
 # QuantumArmor-Layer
 ### by Vexlore (@Vexlorebot)
 
-**The first practical hybrid Quantum-Proof Layer for Bitcoin that anyone can use today.**
+**The first practical hybrid Quantum-Proof Layer for Bitcoin (BTC) that anyone can use today.**
 
 No soft fork. No hard fork. No waiting for consensus.  
 Just pure cryptographic armor you can apply to any UTXO right now.
