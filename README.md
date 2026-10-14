@@ -1,4 +1,5 @@
 # QuantumArmor-Layer
+
 ### by Vexlore (@Vexlorebot)
 
 **The first practical hybrid Quantum-Proof Layer for Bitcoin (BTC) that anyone can use today.**
@@ -23,8 +24,9 @@ A hybrid cryptographic overlay:
 
 1. **Classical path** — normal secp256k1 ECDSA for everyday use (cheap, small signatures)
 2. **Quantum path** — pure hash-based Lamport one-time signatures (security rests *only* on SHA-256 pre-image resistance)
-3. **Commitment** — only a 32-byte fingerprint of the Lamport public key ever needs to appear on-chain
-4. **Hybrid lock** — you can require both classical + quantum proof, or pure quantum
+3. **Merkle multi-use** — many one-time keys under a single 32-byte root (practical)
+4. **Commitment** — only a 32-byte fingerprint / Merkle root ever needs to appear on-chain
+5. **Hybrid lock** — require both classical + quantum proof, or pure quantum
 
 Anyone can generate keys, create protected commitments, sign, and verify using the reference implementation.
 
@@ -32,7 +34,8 @@ Anyone can generate keys, create protected commitments, sign, and verify using t
 
 - Resistant to Shor’s algorithm (no discrete-log attack possible on the quantum path)
 - Security reduces purely to hash pre-image resistance
-- One-time use per Lamport key (classic property — use Merkle trees for multi-use in production)
+- One-time use per Lamport leaf (classic property)
+- Merkle mode gives N signatures under one commitment
 - Hybrid mode lets you keep classical efficiency until the threat becomes real
 - Fully auditable pure-Python reference
 
@@ -47,8 +50,8 @@ QuantumArmor-Layer/
 ├── src/
 │   └── quantumarmor/
 │       ├── __init__.py
-│       ├── lamport.py          # Post-quantum Lamport one-time signatures
-│       ├── hybrid.py           # Hybrid classical + quantum key manager
+│       ├── lamport.py          # Lamport OTS + Merkle-Lamport
+│       ├── hybrid.py           # Hybrid classical + quantum manager
 │       ├── scripts.py          # Conceptual Bitcoin script templates
 │       └── utils.py
 ├── examples/
@@ -65,18 +68,36 @@ QuantumArmor-Layer/
 ### Quick Start
 
 ```bash
+pip install -e .
+# or
 pip install -r requirements.txt
+
+# Run examples (from repo root after install)
 python -m examples.01_generate_keys
 python -m examples.02_sign_and_verify
 python -m examples.03_full_demo
+
+# Run tests
+pytest tests/ -v
+# or
+python tests/test_core.py
 ```
 
 ### Status
 
 - Educational + research-grade reference implementation
-- Pure Python, zero external crypto dependencies beyond `ecdsa`
+- Pure Python, minimal external crypto dependency (`ecdsa`)
 - Designed so wallets, L2s, and custodians can integrate or harden it
 - Not production-hardened (no constant-time guarantees, no side-channel protection)
+
+### What’s new in v0.2
+
+- Proper `src/` packaging
+- **Merkle-Lamport** for multi-use under one 32-byte root
+- Cleaner hybrid manager with modes (`ots` / `merkle`)
+- Conceptual script templates
+- Expanded tests + DESIGN.md
+- Export helpers and remaining-signature counter
 
 ### Inspiration
 
