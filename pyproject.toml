@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "quantumarmor-layer"
-version = "0.1.0"
+version = "0.2.0"
 description = "Hybrid Quantum-Proof Layer for Bitcoin — by Vexlore"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -12,7 +12,7 @@ license = {text = "MIT"}
 authors = [
     {name = "Vexlore", email = "vexlore@example.com"}
 ]
-keywords = ["bitcoin", "post-quantum", "cryptography", "lamport", "quantum-resistant"]
+keywords = ["bitcoin", "post-quantum", "cryptography", "lamport", "merkle", "quantum-resistant"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
@@ -20,7 +20,16 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Topic :: Security :: Cryptography",
 ]
+dependencies = [
+    "ecdsa>=0.18.0",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=7.0.0"]
 
 [project.urls]
-Homepage = "https://github.com/vexlore/QuantumArmor-Layer"
-Repository = "https://github.com/vexlore/QuantumArmor-Layer"
+Homepage = "https://github.com/robinnnn0101-ship-it/QuantumArmor-Layer"
+Repository = "https://github.com/robinnnn0101-ship-it/QuantumArmor-Layer"
+
+[tool.setuptools.packages.find]
+where = ["src"]
