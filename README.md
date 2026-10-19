@@ -52,17 +52,12 @@ QuantumArmor-Layer/
 │       ├── __init__.py
 │       ├── lamport.py          # Lamport OTS + Merkle-Lamport
 │       ├── hybrid.py           # Hybrid classical + quantum manager
-│       ├── scripts.py          # Conceptual Bitcoin script templates
 │       └── utils.py
 ├── examples/
-│   ├── 01_generate_keys.py
-│   ├── 02_sign_and_verify.py
 │   └── 03_full_demo.py
-├── docs/
-│   └── DESIGN.md
 ├── tests/
 │   └── test_core.py
-└── X_POST_TEMPLATE.md
+└── docs/
 ```
 
 ### Quick Start
@@ -72,14 +67,10 @@ pip install -e .
 # or
 pip install -r requirements.txt
 
-# Run examples (from repo root after install)
-python -m examples.01_generate_keys
-python -m examples.02_sign_and_verify
-python -m examples.03_full_demo
+# Run demo (after install)
+python examples/03_full_demo.py
 
 # Run tests
-pytest tests/ -v
-# or
 python tests/test_core.py
 ```
 
@@ -90,14 +81,14 @@ python tests/test_core.py
 - Designed so wallets, L2s, and custodians can integrate or harden it
 - Not production-hardened (no constant-time guarantees, no side-channel protection)
 
-### What’s new in v0.2
+### What’s new in v0.3
 
-- Proper `src/` packaging
-- **Merkle-Lamport** for multi-use under one 32-byte root
-- Cleaner hybrid manager with modes (`ots` / `merkle`)
-- Conceptual script templates
-- Expanded tests + DESIGN.md
-- Export helpers and remaining-signature counter
+- **Merkle-Lamport** fully implemented — multi-use under one 32-byte root
+- Proper `src/` package layout
+- Hybrid manager supports both pure OTS and Merkle modes
+- Remaining-signature counter
+- Cleaner demos and tests
+- Ready for wallet / script integration experiments
 
 ### Inspiration
 
