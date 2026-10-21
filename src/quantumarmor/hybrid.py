@@ -1,6 +1,7 @@
 """
 Hybrid Key Manager
-Classical secp256k1 ECDSA + Post-Quantum Lamport / Merkle-Lamport
+Classical secp256k1 ECDSA + Post-Quantum Lamport / Merkle-Lamport / WOTS
+v0.4 — adds WOTS option for smaller signatures
 """
 
 from __future__ import annotations
@@ -8,6 +9,7 @@ from dataclasses import dataclass
 import ecdsa
 from ecdsa import SigningKey, SECP256k1
 from .lamport import LamportKeyPair, LamportSignature, MerkleLamportKeyPair
+from .wots import WOTSKeyPair, WOTSSignature
 from .utils import sha256, hash160
 
 
@@ -19,20 +21,27 @@ class HybridPublicKey:
 
 
 class HybridKeyManager:
-    """Supports pure OTS or Merkle multi-use quantum path."""
+    """Supports pure OTS, Merkle multi-use, or WOTS quantum path."""
 
     def __init__(
         self,
         classical_sk: SigningKey,
         lamport: LamportKeyPair | None = None,
         merkle: MerkleLamportKeyPair | None = None,
+        wots: WOTSKeyPair | None = None,
     ):
         self._classical_sk = classical_sk
         self._lamport = lamport
         self._merkle = merkle
+        self._wots = wots
         vk = classical_sk.get_verifying_key()
         root = merkle.root if merkle else b""
-        fp = lamport.fingerprint() if lamport else (merkle.root if merkle else b"")
+        if wots:
+            fp = wots.fingerprint()
+        elif lamport:
+            fp = lamport.fingerprint()
+        else:
+            fp = merkle.root if merkle else b""
         self._public = HybridPublicKey(
             classical_pubkey=vk.to_string("compressed"),
             lamport_fingerprint=fp,
@@ -40,8 +49,10 @@ class HybridKeyManager:
         )
 
     @classmethod
-    def generate(cls, n_leaves: int = 1) -> "HybridKeyManager":
+    def generate(cls, n_leaves: int = 1, use_wots: bool = False) -> "HybridKeyManager":
         sk = SigningKey.generate(curve=SECP256k1)
+        if use_wots:
+            return cls(sk, wots=WOTSKeyPair.generate())
         if n_leaves <= 1:
             return cls(sk, lamport=LamportKeyPair.generate())
         return cls(sk, merkle=MerkleLamportKeyPair.generate(n_leaves))
@@ -71,6 +82,8 @@ class HybridKeyManager:
             return False
 
     def sign_quantum(self, message: bytes, index: int | None = None):
+        if self._wots:
+            return self._wots.sign(message)
         if self._merkle:
             return self._merkle.sign(message, index)
         if self._lamport:
@@ -78,6 +91,8 @@ class HybridKeyManager:
         raise RuntimeError("No quantum key available")
 
     def verify_quantum(self, message: bytes, signature) -> bool:
+        if self._wots and isinstance(signature, WOTSSignature):
+            return self._wots.verify(message, signature)
         if self._merkle:
             return self._merkle.verify(message, signature)
         if self._lamport and isinstance(signature, LamportSignature):
@@ -85,6 +100,8 @@ class HybridKeyManager:
         return False
 
     def remaining_quantum(self) -> int:
+        if self._wots:
+            return 0 if self._wots._used else 1
         if self._merkle:
             return self._merkle.remaining()
         if self._lamport and not self._lamport._used:
@@ -96,6 +113,7 @@ class HybridKeyManager:
             "classical_pubkey_hex": self._public.classical_pubkey.hex(),
             "classical_hash160_hex": self.classical_hash160().hex(),
             "lamport_fingerprint_hex": self._public.lamport_fingerprint.hex(),
+            "mode": "wots" if self._wots else ("merkle" if self._merkle else "lamport"),
         }
         if self._public.merkle_root:
             out["merkle_root_hex"] = self._public.merkle_root.hex()

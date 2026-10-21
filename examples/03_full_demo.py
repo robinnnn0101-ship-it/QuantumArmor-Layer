@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Full demonstration of QuantumArmor hybrid layer with Merkle multi-use"""
+"""Full demonstration of QuantumArmor hybrid layer with Merkle multi-use + WOTS"""
 
 from quantumarmor import HybridKeyManager, sha256
 
 
 def main():
     print("=" * 60)
-    print("  QuantumArmor-Layer · Full Demo (Merkle multi-use)")
+    print("  QuantumArmor-Layer · Full Demo (v0.4 — Merkle + WOTS)")
     print("=" * 60)
     print()
 
@@ -35,16 +35,17 @@ def main():
         assert mgr.verify_classical(tx, c_sig)
     print()
 
-    print("[4] One-time enforcement check...")
-    try:
-        mgr.sign_quantum(b"force-reuse")
-        print("  ✓ Next leaf used successfully")
-    except Exception as e:
-        print(f"  ! {e}")
+    print("[4] WOTS mode demo (smaller signatures)...")
+    wots_mgr = HybridKeyManager.generate(use_wots=True)
+    msg = b"wots-demo"
+    q_sig = wots_mgr.sign_quantum(msg)
+    print(f"  WOTS signature size: {len(q_sig.serialize())} bytes")
+    assert wots_mgr.verify_quantum(msg, q_sig)
+    print("  ✓ WOTS verified")
     print()
 
     print("=" * 60)
-    print("  Demo complete. Armor holds. Multi-use active.")
+    print("  Demo complete. Armor holds. Multi-use + WOTS active.")
     print("=" * 60)
 
 

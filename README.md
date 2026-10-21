@@ -23,7 +23,7 @@ This layer is the wake-up call.
 A hybrid cryptographic overlay:
 
 1. **Classical path** — normal secp256k1 ECDSA for everyday use (cheap, small signatures)
-2. **Quantum path** — pure hash-based Lamport one-time signatures (security rests *only* on SHA-256 pre-image resistance)
+2. **Quantum path** — pure hash-based one-time signatures (Lamport or WOTS)
 3. **Merkle multi-use** — many one-time keys under a single 32-byte root (practical)
 4. **Commitment** — only a 32-byte fingerprint / Merkle root ever needs to appear on-chain
 5. **Hybrid lock** — require both classical + quantum proof, or pure quantum
@@ -34,7 +34,7 @@ Anyone can generate keys, create protected commitments, sign, and verify using t
 
 - Resistant to Shor’s algorithm (no discrete-log attack possible on the quantum path)
 - Security reduces purely to hash pre-image resistance
-- One-time use per Lamport leaf (classic property)
+- One-time use per leaf (classic property)
 - Merkle mode gives N signatures under one commitment
 - Hybrid mode lets you keep classical efficiency until the threat becomes real
 - Fully auditable pure-Python reference
@@ -51,6 +51,7 @@ QuantumArmor-Layer/
 │   └── quantumarmor/
 │       ├── __init__.py
 │       ├── lamport.py          # Lamport OTS + Merkle-Lamport
+│       ├── wots.py             # Winternitz OTS (smaller signatures)
 │       ├── hybrid.py           # Hybrid classical + quantum manager
 │       └── utils.py
 ├── examples/
@@ -80,6 +81,15 @@ python tests/test_core.py
 - Pure Python, minimal external crypto dependency (`ecdsa`)
 - Designed so wallets, L2s, and custodians can integrate or harden it
 - Not production-hardened (no constant-time guarantees, no side-channel protection)
+
+### What’s new in v0.4
+
+- **WOTS (Winternitz) support** — ~2–3 KB signatures vs ~8 KB pure Lamport
+- Optional `use_wots=True` in HybridKeyManager.generate()
+- Checksum protection against existential forgery
+- Cleaner mode reporting in export_public()
+- Version bump + updated packaging
+- Still fully compatible with previous Lamport + Merkle path
 
 ### What’s new in v0.3
 
