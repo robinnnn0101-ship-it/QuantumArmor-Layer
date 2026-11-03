@@ -1,21 +1,16 @@
-"""QuantumArmor-Layer — hybrid quantum-proof cryptographic overlay for Bitcoin."""
+"""QuantumArmor-Layer — Hybrid Quantum-Proof Layer for Bitcoin"""
 
-from .lamport import LamportKeyPair, MerkleLamportKeyPair, LamportSignature
-from .wots import WOTSKeyPair, WOTSSignature
+__version__ = "0.5.0"
+
 from .hybrid import HybridKeyManager, HybridPublicKey
-from .utils import sha256, hash160, ripemd160
+from .lamport import LamportKeyPair, MerkleLamportKeyPair
+from .wots import WOTSKeyPair
 
 __all__ = [
-    "LamportKeyPair",
-    "MerkleLamportKeyPair",
-    "LamportSignature",
-    "WOTSKeyPair",
-    "WOTSSignature",
     "HybridKeyManager",
     "HybridPublicKey",
-    "sha256",
-    "hash160",
-    "ripemd160",
+    "LamportKeyPair",
+    "MerkleLamportKeyPair",
+    "WOTSKeyPair",
+    "__version__",
 ]
-
-__version__ = "0.4.0"
