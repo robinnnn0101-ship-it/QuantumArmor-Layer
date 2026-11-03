@@ -1,7 +1,7 @@
 """
 Hybrid Key Manager
 Classical secp256k1 ECDSA + Post-Quantum Lamport / Merkle-Lamport / WOTS
-v0.4 — adds WOTS option for smaller signatures
+v0.5 — CLI ready, better exports
 """
 
 from __future__ import annotations
@@ -114,7 +114,14 @@ class HybridKeyManager:
             "classical_hash160_hex": self.classical_hash160().hex(),
             "lamport_fingerprint_hex": self._public.lamport_fingerprint.hex(),
             "mode": "wots" if self._wots else ("merkle" if self._merkle else "lamport"),
+            "version": "0.5.0",
         }
         if self._public.merkle_root:
             out["merkle_root_hex"] = self._public.merkle_root.hex()
         return out
+
+    def export_commitment(self) -> str:
+        """Return the 32-byte commitment hex suitable for OP_RETURN or Taproot."""
+        if self._public.merkle_root:
+            return self._public.merkle_root.hex()
+        return self._public.lamport_fingerprint.hex()
