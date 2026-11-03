@@ -47,18 +47,28 @@ QuantumArmor-Layer/
 ├── LICENSE
 ├── pyproject.toml
 ├── requirements.txt
+├── .gitignore
+├── .github/
+│   └── workflows/
+│       └── ci.yml
 ├── src/
 │   └── quantumarmor/
 │       ├── __init__.py
 │       ├── lamport.py          # Lamport OTS + Merkle-Lamport
 │       ├── wots.py             # Winternitz OTS (smaller signatures)
 │       ├── hybrid.py           # Hybrid classical + quantum manager
-│       └── utils.py
+│       ├── utils.py
+│       └── cli.py             # CLI interface (v0.5)
 ├── examples/
-│   └── 03_full_demo.py
+│   ├── 03_full_demo.py
+│   └── bitcoin_commit.py     # OP_RETURN style commitment example
 ├── tests/
-│   └── test_core.py
+│   ├── test_core.py
+│   └── test_advanced.py
 └── docs/
+    ├── SECURITY.md
+    ├── ARCHITECTURE.md
+    └── CONTRIBUTING.md
 ```
 
 ### Quick Start
@@ -68,11 +78,14 @@ pip install -e .
 # or
 pip install -r requirements.txt
 
-# Run demo (after install)
+# Run demo
 python examples/03_full_demo.py
 
 # Run tests
-python tests/test_core.py
+python -m pytest tests/ -q
+
+# CLI (v0.5+)
+quantumarmor generate --mode merkle --leaves 32
 ```
 
 ### Status
@@ -81,6 +94,17 @@ python tests/test_core.py
 - Pure Python, minimal external crypto dependency (`ecdsa`)
 - Designed so wallets, L2s, and custodians can integrate or harden it
 - Not production-hardened (no constant-time guarantees, no side-channel protection)
+
+### What’s new in v0.5
+
+- CLI tool for keygen, sign, verify
+- Expanded test suite (pytest)
+- Bitcoin commitment example
+- SECURITY.md, ARCHITECTURE.md, CONTRIBUTING.md
+- GitHub Actions CI
+- Better packaging and .gitignore
+- Key export/import helpers
+- Performance notes
 
 ### What’s new in v0.4
 
