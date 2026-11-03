@@ -7,6 +7,8 @@
 No soft fork. No hard fork. No waiting for consensus.  
 Just pure cryptographic armor you can apply to any UTXO right now.
 
+[![CI](https://github.com/robinnnn0101-ship-it/QuantumArmor-Layer/actions/workflows/ci.yml/badge.svg)](https://github.com/robinnnn0101-ship-it/QuantumArmor-Layer/actions)
+
 ---
 
 ### Why this exists
@@ -39,38 +41,6 @@ Anyone can generate keys, create protected commitments, sign, and verify using t
 - Hybrid mode lets you keep classical efficiency until the threat becomes real
 - Fully auditable pure-Python reference
 
-### Project Structure
-
-```
-QuantumArmor-Layer/
-├── README.md
-├── LICENSE
-├── pyproject.toml
-├── requirements.txt
-├── .gitignore
-├── .github/
-│   └── workflows/
-│       └── ci.yml
-├── src/
-│   └── quantumarmor/
-│       ├── __init__.py
-│       ├── lamport.py          # Lamport OTS + Merkle-Lamport
-│       ├── wots.py             # Winternitz OTS (smaller signatures)
-│       ├── hybrid.py           # Hybrid classical + quantum manager
-│       ├── utils.py
-│       └── cli.py             # CLI interface (v0.5)
-├── examples/
-│   ├── 03_full_demo.py
-│   └── bitcoin_commit.py     # OP_RETURN style commitment example
-├── tests/
-│   ├── test_core.py
-│   └── test_advanced.py
-└── docs/
-    ├── SECURITY.md
-    ├── ARCHITECTURE.md
-    └── CONTRIBUTING.md
-```
-
 ### Quick Start
 
 ```bash
@@ -80,9 +50,12 @@ pip install -r requirements.txt
 
 # Run demo
 python examples/03_full_demo.py
+python examples/modes_demo.py
 
 # Run tests
 python -m pytest tests/ -q
+# or
+make test
 
 # CLI (v0.5+)
 quantumarmor generate --mode merkle --leaves 32
@@ -90,39 +63,22 @@ quantumarmor generate --mode merkle --leaves 32
 
 ### Status
 
-- Educational + research-grade reference implementation
+- Educational + research-grade reference implementation (v0.5.0)
 - Pure Python, minimal external crypto dependency (`ecdsa`)
 - Designed so wallets, L2s, and custodians can integrate or harden it
 - Not production-hardened (no constant-time guarantees, no side-channel protection)
 
+See [CHANGELOG.md](CHANGELOG.md) and [docs/](docs/) for details.
+
 ### What’s new in v0.5
 
-- CLI tool for keygen, sign, verify
+- CLI tool for keygen
 - Expanded test suite (pytest)
 - Bitcoin commitment example
-- SECURITY.md, ARCHITECTURE.md, CONTRIBUTING.md
+- SECURITY.md, ARCHITECTURE.md, CONTRIBUTING.md, PERFORMANCE.md, FAQ.md
 - GitHub Actions CI
-- Better packaging and .gitignore
-- Key export/import helpers
-- Performance notes
-
-### What’s new in v0.4
-
-- **WOTS (Winternitz) support** — ~2–3 KB signatures vs ~8 KB pure Lamport
-- Optional `use_wots=True` in HybridKeyManager.generate()
-- Checksum protection against existential forgery
-- Cleaner mode reporting in export_public()
-- Version bump + updated packaging
-- Still fully compatible with previous Lamport + Merkle path
-
-### What’s new in v0.3
-
-- **Merkle-Lamport** fully implemented — multi-use under one 32-byte root
-- Proper `src/` package layout
-- Hybrid manager supports both pure OTS and Merkle modes
-- Remaining-signature counter
-- Cleaner demos and tests
-- Ready for wallet / script integration experiments
+- Better packaging, .gitignore, Makefile
+- Key export helpers
 
 ### Inspiration
 
