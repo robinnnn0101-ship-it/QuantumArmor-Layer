@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "quantumarmor-layer"
-version = "0.4.0"
-description = "Hybrid Quantum-Proof Layer for Bitcoin — by Vexlore (v0.4: WOTS support)"
+version = "0.5.0"
+description = "Hybrid Quantum-Proof Layer for Bitcoin — by Vexlore (v0.5: CLI + tests + docs)"
 readme = "README.md"
 requires-python = ">=3.9"
 license = {text = "MIT"}
@@ -26,6 +26,10 @@ dependencies = [
 
 [project.optional-dependencies]
 test = ["pytest>=7.0.0"]
+cli = []
+
+[project.scripts]
+quantumarmor = "quantumarmor.cli:main"
 
 [project.urls]
 Homepage = "https://github.com/robinnnn0101-ship-it/QuantumArmor-Layer"
@@ -33,3 +37,7 @@ Repository = "https://github.com/robinnnn0101-ship-it/QuantumArmor-Layer"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "-q --tb=short"
+testpaths = ["tests"]
