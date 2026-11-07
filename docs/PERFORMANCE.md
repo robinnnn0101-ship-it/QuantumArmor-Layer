@@ -1,29 +1,19 @@
-# Performance Notes
+# Performance Notes — QuantumArmor-Layer
 
-Educational numbers on a typical laptop (Python 3.11):
+Pure-Python educational implementation. Numbers approximate on modern laptop.
 
-| Mode          | Keygen (approx) | Sign (approx) | Sig size |
-|---------------|-----------------|---------------|----------|
-| Lamport       | ~5 ms           | ~1 ms         | ~8 KB    |
-| Merkle-16     | ~80 ms          | ~2 ms         | ~8 KB + proof |
-| WOTS (w=4)    | ~20 ms          | ~5 ms         | ~2.5 KB  |
+| Operation              | Approx time |
+|------------------------|-------------|
+| Lamport keygen         | 5-15 ms     |
+| Merkle-16 keygen       | 80-200 ms   |
+| WOTS keygen            | 10-30 ms    |
+| Merkle sign (leaf)     | 1-5 ms      |
+| Hybrid sign            | +ECDSA ~1ms |
 
-These are rough. Real numbers depend on hardware and Python version.
+Run `python examples/benchmark.py` for local numbers.
 
-## Tips
+Bottlenecks:
+- Many SHA-256 calls (especially Merkle keygen).
+- Pure Python ecdsa + hashing.
 
-- Prefer WOTS or Merkle for practical use.
-- Pre-generate keys offline.
-- Signature verification is cheap compared to generation.
-- For production, port critical paths to Rust/C.
-
-Run your own:
-
-```python
-import time
-from quantumarmor import HybridKeyManager
-
-t0 = time.perf_counter()
-km = HybridKeyManager.generate(n_leaves=32)
-print(f"keygen: {(time.perf_counter()-t0)*1000:.1f} ms")
-```
+Production would use Rust/C or optimized libs. This prioritizes auditability.
