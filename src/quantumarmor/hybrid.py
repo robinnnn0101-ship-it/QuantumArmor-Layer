@@ -1,7 +1,7 @@
 """
 Hybrid Key Manager
 Classical secp256k1 ECDSA + Post-Quantum Lamport / Merkle-Lamport / WOTS
-v0.5 — CLI ready, better exports
+v0.6 — hybrid sign, better exports
 """
 
 from __future__ import annotations
@@ -99,6 +99,22 @@ class HybridKeyManager:
             return self._lamport.verify(message, signature)
         return False
 
+    def sign_hybrid(self, message: bytes, index: int | None = None) -> dict:
+        """Require both classical + quantum proofs (v0.6)."""
+        return {
+            "classical": self.sign_classical(message).hex(),
+            "quantum": self.sign_quantum(message, index),
+            "commitment": self.export_commitment(),
+        }
+
+    def verify_hybrid(self, message: bytes, hybrid_sig: dict) -> bool:
+        try:
+            c_ok = self.verify_classical(message, bytes.fromhex(hybrid_sig["classical"]))
+            q_ok = self.verify_quantum(message, hybrid_sig["quantum"])
+            return c_ok and q_ok
+        except Exception:
+            return False
+
     def remaining_quantum(self) -> int:
         if self._wots:
             return 0 if self._wots._used else 1
@@ -114,7 +130,7 @@ class HybridKeyManager:
             "classical_hash160_hex": self.classical_hash160().hex(),
             "lamport_fingerprint_hex": self._public.lamport_fingerprint.hex(),
             "mode": "wots" if self._wots else ("merkle" if self._merkle else "lamport"),
-            "version": "0.5.0",
+            "version": "0.6.0",
         }
         if self._public.merkle_root:
             out["merkle_root_hex"] = self._public.merkle_root.hex()
