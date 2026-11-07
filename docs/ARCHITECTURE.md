@@ -39,6 +39,7 @@
 - Combines secp256k1 ECDSA with chosen quantum path.
 - Modes: pure Lamport, Merkle, or WOTS.
 - Exports classical hash160 + quantum fingerprint/root.
+- v0.6: `sign_hybrid()` / `verify_hybrid()` for dual proofs.
 
 ## Commitment strategies
 
