@@ -1,4 +1,4 @@
-.PHONY: test install clean demo
+.PHONY: test install clean demo bench docker
 
 install:
 	pip install -e .[test]
@@ -8,6 +8,13 @@ test:
 
 demo:
 	python examples/modes_demo.py
+
+bench:
+	python examples/benchmark.py
+
+docker:
+	docker build -t quantumarmor .
+	docker run --rm quantumarmor
 
 clean:
 	find . -type d -name __pycache__ -exec rm -rf {} +
