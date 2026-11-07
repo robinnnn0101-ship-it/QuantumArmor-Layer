@@ -51,34 +51,35 @@ pip install -r requirements.txt
 # Run demo
 python examples/03_full_demo.py
 python examples/modes_demo.py
+python examples/benchmark.py
 
 # Run tests
 python -m pytest tests/ -q
 # or
 make test
 
-# CLI (v0.5+)
+# CLI (v0.6+)
 quantumarmor generate --mode merkle --leaves 32
+quantumarmor sign --message "armor up" --hybrid
 ```
 
 ### Status
 
-- Educational + research-grade reference implementation (v0.5.0)
+- Educational + research-grade reference implementation (v0.6.0)
 - Pure Python, minimal external crypto dependency (`ecdsa`)
 - Designed so wallets, L2s, and custodians can integrate or harden it
 - Not production-hardened (no constant-time guarantees, no side-channel protection)
 
 See [CHANGELOG.md](CHANGELOG.md) and [docs/](docs/) for details.
 
-### What’s new in v0.5
+### What’s new in v0.6
 
-- CLI tool for keygen
-- Expanded test suite (pytest)
-- Bitcoin commitment example
-- SECURITY.md, ARCHITECTURE.md, CONTRIBUTING.md, PERFORMANCE.md, FAQ.md
-- GitHub Actions CI
-- Better packaging, .gitignore, Makefile
-- Key export helpers
+- Full CLI (generate / sign / verify)
+- Hybrid signing (`sign_hybrid` requires both paths)
+- Benchmark utilities
+- Dockerfile
+- ROADMAP, COMPARISON, INTEGRATION guides
+- Enhanced serialization and tests
 
 ### Inspiration
 
