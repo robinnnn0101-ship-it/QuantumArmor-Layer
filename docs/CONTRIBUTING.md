@@ -1,37 +1,24 @@
-# Contributing to QuantumArmor-Layer
+# Contributing
 
-Thanks for looking at the armor.
+Educational project. PRs welcome for:
 
-## Ground rules
+- Docs improvements
+- More examples
+- Tests
+- Performance notes
+- Integration sketches (no real funds)
 
-- Keep it pure-Python and auditable.
-- Prefer small, focused PRs.
-- Add tests for any new crypto path.
-- Do not introduce constant-time claims without evidence.
-- Update README and SECURITY.md if threat model changes.
-
-## Development
+## Setup
 
 ```bash
-git clone https://github.com/robinnnn0101-ship-it/QuantumArmor-Layer
-cd QuantumArmor-Layer
 pip install -e .[test]
-pytest
+make test
 ```
 
-## Areas that need work
+## Style
 
-- Better serialization formats
-- Bitcoin script examples (Taproot leaf)
-- Performance benchmarks
-- Optional Rust/C bindings (out of scope for reference)
-- Formal verification sketches
-- Wallet integration sketches
+Pure Python, clear comments, type hints where useful.
 
-## Code style
+Keep the “no fork required, pure hash security, auditable” ethos.
 
-- Black-friendly
-- Type hints where useful
-- Docstrings on public classes
-
-**Break the illusion. Build the armor.**
+See ROADMAP.md for ideas.
