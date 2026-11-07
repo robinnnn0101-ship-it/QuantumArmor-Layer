@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.6.0] - 2026-11-07
+
+### Added
+- Full CLI: generate / sign / verify
+- `sign_hybrid()` / `verify_hybrid()` requiring both classical + quantum
+- Benchmark example (`examples/benchmark.py`)
+- Dockerfile for quick demo
+- docs/ROADMAP.md, COMPARISON.md, INTEGRATION.md
+- Enhanced serialize helpers
+- Hybrid signing tests
+- Version bump and packaging polish
+
+### Changed
+- HybridKeyManager export version 0.6.0
+- Better CLI argument handling
+
 ## [0.5.0] - 2026-11-04
 
 ### Added
