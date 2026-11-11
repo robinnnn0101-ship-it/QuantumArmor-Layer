@@ -3,18 +3,19 @@
 ## [0.7.0] - 2026-11-11
 
 ### Added
-- Version bump to 0.7.0 - next level upgrades
-- Key persistence sketches (educational load/save patterns)
-- Improved multi-use notes and SPHINCS-like sketch foundations
-- Side-channel resistance guidance in docs
-- Enhanced CLI with better key handling sketches
-- More contribution markers and polish for scale
-- Updated performance and security notes
+- Improved WOTS: size estimation helper, clearer constants, better checksum docs
+- MerkleLamport: stronger index validation, better error handling, proof checks
+- CLI v0.7: improved error handling, updated help, try/except guards
+- Persistence sketches module (`persistence.py`) — educational public export only
+- Tests for WOTS size, Merkle validation, hybrid version (`tests/test_v07.py`)
+- New example `examples/v07_demo.py`
+- Expanded API.md, PERFORMANCE.md, SIDECHANNEL.md
+- Side-channel resistance guidance
 
 ### Changed
-- HybridKeyManager and exports to 0.7.0
-- README status and quick start for v0.7
-- Packaging description
+- HybridKeyManager exports version 0.7.0
+- Package __init__ exports persistence helpers
+- README, ROADMAP, SECURITY updated for next level
 
 ## [0.6.0] - 2026-11-07
 
