@@ -16,6 +16,7 @@
 - reset_sign_count() educational helper
 - get_status() summary helper
 - export_status_json() helper
+- is_hybrid_capable() helper
 - Version bump to 0.7.1
 
 ### Changed
