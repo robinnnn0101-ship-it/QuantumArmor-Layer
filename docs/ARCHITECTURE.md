@@ -1,55 +1,16 @@
 # Architecture — QuantumArmor-Layer
 
-## High-level design
+Hybrid design:
 
-```
-[ Classical ECDSA ]  +  [ Hash-based OTS (Lamport/WOTS) ]
-          \                        /
-           \                      /
-            \                    /
-             [ HybridKeyManager ]
-                      |
-                      v
-              32-byte commitment
-              (fingerprint or Merkle root)
-                      |
-                      v
-                 Bitcoin UTXO
-```
+1. Classical secp256k1 ECDSA for everyday efficiency
+2. Quantum path: Lamport or WOTS (hash-based, Shor-resistant)
+3. Merkle multi-use under one 32-byte root
+4. Commitment: only fingerprint/root on-chain
+5. Hybrid mode: both proofs required
 
-## Components
+v0.7.1 helpers:
+- pretty_public() for readable export
+- commitment_bytes() for raw 32-byte
+- remaining tracking
 
-### Lamport OTS (`lamport.py`)
-- Classic 256-bit hash-based one-time signature.
-- 512 pre-images → 256 revealed on sign.
-- Signature size ≈ 8 KB.
-
-### Merkle-Lamport
-- N independent Lamport keypairs.
-- Leaves = fingerprints of each public key.
-- Single 32-byte root committed on-chain.
-- Allows N signatures before root must be rotated.
-
-### WOTS (`wots.py`)
-- Winternitz one-time signature.
-- Smaller signatures (~2-3 KB) at the cost of more hashing.
-- Includes checksum to prevent existential forgery.
-
-### HybridKeyManager (`hybrid.py`)
-- Combines secp256k1 ECDSA with chosen quantum path.
-- Modes: pure Lamport, Merkle, or WOTS.
-- Exports classical hash160 + quantum fingerprint/root.
-- v0.6: `sign_hybrid()` / `verify_hybrid()` for dual proofs.
-
-## Commitment strategies
-
-1. **OP_RETURN** — simplest, 32-byte root.
-2. **Pay-to-Merkle-Root style** (BIP-360 inspired) — future script path.
-3. **Multisig / Taproot leaf** — embed root in script.
-
-## Design goals
-
-- No soft/hard fork required.
-- Usable today with existing Bitcoin rules.
-- Pure Python reference for auditability.
-- Pluggable quantum path (Lamport / WOTS / future).
+See source for full flow.
