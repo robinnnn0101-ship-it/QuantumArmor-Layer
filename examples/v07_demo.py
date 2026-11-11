@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""v0.7.1 demo: WOTS size, Merkle validation, public persistence sketch, pretty print, sign_count, reset, status JSON, percent."""
+"""v0.7.1 demo: WOTS size, Merkle validation, public persistence sketch, pretty print, sign_count, reset, status JSON, percent, low remaining."""
 from quantumarmor import HybridKeyManager
 from quantumarmor.wots import WOTSKeyPair
 from quantumarmor.persistence import sketch_export_public_only, warning
@@ -23,11 +23,12 @@ print(km.pretty_public())
 print("Status JSON:")
 print(km.export_status_json())
 print("Remaining %:", km.remaining_percent())
+print("Low remaining:", km.is_low_remaining())
 print("Remaining:", km.remaining_quantum())
 print("Sign count:", km.sign_count())
 
 km.sign_quantum(b"demo")
-print("After one sign - remaining %:", km.remaining_percent())
+print("After one sign - remaining %:", km.remaining_percent(), "low:", km.is_low_remaining())
 print("Status JSON:")
 print(km.export_status_json())
 
