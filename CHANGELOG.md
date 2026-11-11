@@ -12,6 +12,7 @@
 - pretty_public() helper
 - format_commitment() in utils
 - get_version() classmethod
+- sign_count() tracker
 - Version bump to 0.7.1
 
 ### Changed
