@@ -1,12 +1,16 @@
 # Roadmap — QuantumArmor-Layer
 
-## v0.7 (current)
+## v0.7 (current) — DONE in this series
 - Version 0.7.0 next-level upgrades
-- Key persistence educational sketches
-- Side-channel resistance guidance
-- Improved multi-use and SPHINCS foundations
-- Enhanced CLI patterns
-- Scale contribution series
+- Improved WOTS (size helpers, clearer logic)
+- MerkleLamport stronger validation & error handling
+- CLI error handling and help update
+- Key persistence educational sketches (public only)
+- Side-channel resistance guidance (SIDECHANNEL.md)
+- New tests (test_v07, test_serialize, test_hybrid_helpers)
+- New demo (v07_demo.py)
+- Utils & serialize enhancements
+- Expanded API / PERFORMANCE docs
 
 ## v0.6
 - Full CLI (generate / sign / verify)
