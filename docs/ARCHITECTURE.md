@@ -19,5 +19,6 @@ v0.7.1 helpers:
 - export_status_json()
 - leaf_count property (1 for OTS, N for Merkle)
 - used_leaves_estimate() = leaf_count - remaining
+- remaining_percent() helper
 
 See source for full flow.
