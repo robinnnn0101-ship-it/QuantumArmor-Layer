@@ -3,6 +3,7 @@ Winternitz One-Time Signature (WOTS) — educational reference
 Much smaller signatures than pure Lamport (~2KB vs 8KB).
 Security still reduces to hash pre-image resistance.
 Includes checksum to prevent existential forgery.
+v0.7 improvements: better docs, size helper, clearer digit logic.
 """
 
 from __future__ import annotations
@@ -13,7 +14,9 @@ from .utils import sha256
 
 # w=16 → 4 bits per digit. 256-bit hash → 64 message digits + checksum.
 W = 16
-N_CHAINS = 67  # 64 message + ~3 checksum (simplified fixed)
+N_MSG_DIGITS = 64
+N_CS_DIGITS = 3
+N_CHAINS = N_MSG_DIGITS + N_CS_DIGITS  # 67
 
 
 def _chain(start: bytes, steps: int) -> bytes:
@@ -43,6 +46,10 @@ class WOTSSignature:
     def serialize(self) -> bytes:
         return b"".join(self.revealed)
 
+    @property
+    def size_bytes(self) -> int:
+        return len(self.serialize())
+
 
 class WOTSKeyPair:
     """Simple WOTS with fixed parameters and checksum."""
@@ -63,20 +70,19 @@ class WOTSKeyPair:
         return self._public
 
     def _base_w_digits(self, data: bytes) -> List[int]:
-        """Split into base-w (w=16) digits. Take first 64 from hash + checksum."""
+        """Split into base-w (w=16) digits. 64 from hash + 3 checksum digits."""
         h = sha256(data)
         digits = []
         for b in h:
             digits.append((b >> 4) & 0xF)
             digits.append(b & 0xF)
-        # Simple checksum: sum of (W-1 - d) for first 64
-        checksum = sum(W - 1 - d for d in digits[:64])
-        # Encode checksum as a few digits (enough for max ~64*15=960)
+        # Checksum: sum of (W-1 - d) for message digits prevents forgery
+        checksum = sum(W - 1 - d for d in digits[:N_MSG_DIGITS])
         cs_digits = []
-        for _ in range(3):
+        for _ in range(N_CS_DIGITS):
             cs_digits.append(checksum & 0xF)
             checksum >>= 4
-        return digits[:64] + cs_digits
+        return digits[:N_MSG_DIGITS] + cs_digits
 
     def sign(self, message: bytes) -> WOTSSignature:
         if self._used:
@@ -84,10 +90,7 @@ class WOTSKeyPair:
         self._used = True
 
         digits = self._base_w_digits(message)
-        revealed = []
-        for i, d in enumerate(digits):
-            # Reveal the value after 'd' hashes from the secret start
-            revealed.append(_chain(self._secret.chain_starts[i], d))
+        revealed = [_chain(self._secret.chain_starts[i], d) for i, d in enumerate(digits)]
         return WOTSSignature(tuple(revealed))
 
     def verify(self, message: bytes, signature: WOTSSignature) -> bool:
@@ -95,7 +98,6 @@ class WOTSKeyPair:
             return False
         digits = self._base_w_digits(message)
         for i, d in enumerate(digits):
-            # Hash the revealed value (W-1 - d) more times → should match public end
             end = _chain(signature.revealed[i], W - 1 - d)
             if end != self._public.chain_ends[i]:
                 return False
@@ -103,3 +105,7 @@ class WOTSKeyPair:
 
     def fingerprint(self) -> bytes:
         return self._public.fingerprint()
+
+    def estimated_sig_size(self) -> int:
+        """Rough signature size in bytes (N_CHAINS * 32)."""
+        return N_CHAINS * 32
