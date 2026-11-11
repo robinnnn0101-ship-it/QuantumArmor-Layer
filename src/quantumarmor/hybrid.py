@@ -148,6 +148,10 @@ class HybridKeyManager:
     def sign_count(self) -> int:
         return self._sign_count
 
+    def reset_sign_count(self) -> None:
+        """Educational reset only. Does not restore used leaves."""
+        self._sign_count = 0
+
     def export_public(self) -> dict:
         out = {
             "classical_pubkey_hex": self._public.classical_pubkey.hex(),
