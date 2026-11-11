@@ -20,6 +20,7 @@
 - leaf_count property
 - used_leaves_estimate() helper
 - remaining_percent() helper
+- is_low_remaining() helper
 - Version bump to 0.7.1
 
 ### Changed
