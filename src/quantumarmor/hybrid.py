@@ -86,6 +86,11 @@ class HybridKeyManager:
     def used_leaves_estimate(self) -> int:
         return self.leaf_count - self.remaining_quantum()
 
+    def remaining_percent(self) -> float:
+        if self.leaf_count == 0:
+            return 0.0
+        return (self.remaining_quantum() / self.leaf_count) * 100
+
     def is_hybrid_capable(self) -> bool:
         return True
 
@@ -169,6 +174,7 @@ class HybridKeyManager:
             "mode": self.mode,
             "version": self.get_version(),
             "remaining": self.remaining_quantum(),
+            "remaining_percent": round(self.remaining_percent(), 1),
             "used_estimate": self.used_leaves_estimate(),
             "sign_count": self.sign_count(),
             "exhausted": self.is_exhausted(),
@@ -188,6 +194,7 @@ class HybridKeyManager:
             "mode": self.mode,
             "version": self.get_version(),
             "remaining": self.remaining_quantum(),
+            "remaining_percent": round(self.remaining_percent(), 1),
             "used_estimate": self.used_leaves_estimate(),
             "sign_count": self.sign_count(),
             "leaf_count": self.leaf_count,
