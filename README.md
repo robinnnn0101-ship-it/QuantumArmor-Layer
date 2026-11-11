@@ -75,11 +75,11 @@ See [CHANGELOG.md](CHANGELOG.md) and [docs/](docs/) for details.
 
 ### What’s new in v0.7.1
 
-- commitment_bytes() helper
+- commitment_bytes() and pretty_public() helpers
 - remaining count in public export
-- CLI prints commitment
+- CLI prints commitment + remaining
 - BITCOIN_INTEGRATION.md and SPHINCS_SKETCH.md
-- Edge case tests
+- Edge case tests and format_commitment()
 - Improved WOTS, Merkle validation, persistence sketches (from 0.7.0)
 
 ### Inspiration
