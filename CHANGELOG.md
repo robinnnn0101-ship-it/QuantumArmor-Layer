@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.7.1] - 2026-11-11
+
+### Added
+- `commitment_bytes()` helper on HybridKeyManager
+- remaining count in export_public
+- CLI prints commitment on generate
+- BITCOIN_INTEGRATION.md
+- SPHINCS_SKETCH.md
+- Edge case tests
+- Version bump to 0.7.1
+
+### Changed
+- Export version string
+- Package version
+
 ## [0.7.0] - 2026-11-11
 
 ### Added
