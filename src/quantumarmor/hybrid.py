@@ -77,8 +77,14 @@ class HybridKeyManager:
             return "merkle"
         return "lamport"
 
+    @property
+    def leaf_count(self) -> int:
+        if self._merkle:
+            return self._merkle.n_leaves
+        return 1
+
     def is_hybrid_capable(self) -> bool:
-        return True  # always has classical + quantum path
+        return True
 
     def classical_hash160(self) -> bytes:
         return hash160(self._public.classical_pubkey)
@@ -163,6 +169,7 @@ class HybridKeyManager:
             "sign_count": self.sign_count(),
             "exhausted": self.is_exhausted(),
             "hybrid_capable": self.is_hybrid_capable(),
+            "leaf_count": self.leaf_count,
             "commitment": self.export_commitment(),
         }
 
@@ -178,6 +185,7 @@ class HybridKeyManager:
             "version": self.get_version(),
             "remaining": self.remaining_quantum(),
             "sign_count": self.sign_count(),
+            "leaf_count": self.leaf_count,
         }
         if self._public.merkle_root:
             out["merkle_root_hex"] = self._public.merkle_root.hex()
