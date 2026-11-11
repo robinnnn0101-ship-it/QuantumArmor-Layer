@@ -59,29 +59,28 @@ python -m pytest tests/ -q
 # or
 make test
 
-# CLI (v0.7+)
+# CLI (v0.7.1+)
 quantumarmor generate --mode merkle --leaves 32
 quantumarmor sign --message "armor up" --hybrid
 ```
 
 ### Status
 
-- Educational + research-grade reference implementation (v0.7.0)
+- Educational + research-grade reference implementation (v0.7.1)
 - Pure Python, minimal external crypto dependency (`ecdsa`)
 - Designed so wallets, L2s, and custodians can integrate or harden it
 - Not production-hardened (no constant-time guarantees, no side-channel protection) — see SECURITY.md and SIDECHANNEL.md
 
 See [CHANGELOG.md](CHANGELOG.md) and [docs/](docs/) for details.
 
-### What’s new in v0.7
+### What’s new in v0.7.1
 
-- Improved WOTS with size estimation and clearer constants
-- Stronger MerkleLamport validation and error handling
-- CLI v0.7 with better error handling
-- Educational persistence sketches (public only)
-- New tests and v07_demo.py
-- Utils / serialize helpers
-- Side-channel guidance and expanded docs
+- commitment_bytes() helper
+- remaining count in public export
+- CLI prints commitment
+- BITCOIN_INTEGRATION.md and SPHINCS_SKETCH.md
+- Edge case tests
+- Improved WOTS, Merkle validation, persistence sketches (from 0.7.0)
 
 ### Inspiration
 
