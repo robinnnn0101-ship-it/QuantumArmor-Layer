@@ -15,6 +15,7 @@
 - export_status_json() helper
 - is_hybrid_capable() helper
 - leaf_count property
+- used_leaves_estimate() helper
 - Version 0.7.1
 
 ## v0.7.0
