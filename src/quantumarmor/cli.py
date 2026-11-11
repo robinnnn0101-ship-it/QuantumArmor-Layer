@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-QuantumArmor CLI
+QuantumArmor CLI v0.7
 Usage:
   quantumarmor generate --mode merkle --leaves 16
-  quantumarmor sign --message "hello"
+  quantumarmor sign --message "hello" --hybrid
   quantumarmor verify --message "hello" --sig sig.json
 """
 
@@ -15,49 +15,62 @@ from .hybrid import HybridKeyManager
 
 
 def cmd_generate(args):
-    n = args.leaves if args.mode == "merkle" else 1
-    use_wots = args.mode == "wots"
-    km = HybridKeyManager.generate(n_leaves=n, use_wots=use_wots)
-    pub = km.export_public()
-    print(json.dumps(pub, indent=2))
-    if args.out:
-        with open(args.out, "w") as f:
-            json.dump({"public": pub, "mode": args.mode}, f, indent=2)
-        print(f"Public info written to {args.out}", file=sys.stderr)
-    return km
+    try:
+        n = args.leaves if args.mode == "merkle" else 1
+        use_wots = args.mode == "wots"
+        km = HybridKeyManager.generate(n_leaves=n, use_wots=use_wots)
+        pub = km.export_public()
+        print(json.dumps(pub, indent=2))
+        if args.out:
+            with open(args.out, "w") as f:
+                json.dump({"public": pub, "mode": args.mode}, f, indent=2)
+            print(f"Public info written to {args.out}", file=sys.stderr)
+        return km
+    except Exception as e:
+        print(f"Generate failed: {e}", file=sys.stderr)
+        sys.exit(1)
 
 
 def cmd_sign(args):
-    # Educational: regenerate for demo (real use loads key)
-    n = args.leaves if args.mode == "merkle" else 1
-    use_wots = args.mode == "wots"
-    km = HybridKeyManager.generate(n_leaves=n, use_wots=use_wots)
-    msg = args.message.encode()
-    if args.hybrid:
-        sig = km.sign_hybrid(msg)
-    else:
-        sig = {"quantum": km.sign_quantum(msg)}
-    out = {"signature": sig, "public": km.export_public(), "message": args.message}
-    print(json.dumps(out, indent=2, default=str))
-    if args.out:
-        with open(args.out, "w") as f:
-            json.dump(out, f, indent=2, default=str)
+    try:
+        # Educational: regenerate for demo (real use loads key)
+        n = args.leaves if args.mode == "merkle" else 1
+        use_wots = args.mode == "wots"
+        km = HybridKeyManager.generate(n_leaves=n, use_wots=use_wots)
+        msg = args.message.encode()
+        if args.hybrid:
+            sig = km.sign_hybrid(msg)
+        else:
+            sig = {"quantum": km.sign_quantum(msg)}
+        out = {"signature": sig, "public": km.export_public(), "message": args.message}
+        print(json.dumps(out, indent=2, default=str))
+        if args.out:
+            with open(args.out, "w") as f:
+                json.dump(out, f, indent=2, default=str)
+    except Exception as e:
+        print(f"Sign failed: {e}", file=sys.stderr)
+        sys.exit(1)
 
 
 def cmd_verify(args):
-    # Demo verify against freshly generated matching key is limited;
-    # real impl would load public commitment + signature object.
     print("Educational verify: load signature JSON and matching public commitment.", file=sys.stderr)
-    if args.sig:
+    if not args.sig:
+        print("Provide --sig file", file=sys.stderr)
+        sys.exit(1)
+    try:
         with open(args.sig) as f:
             data = json.load(f)
         print(json.dumps({"loaded": True, "keys": list(data.keys())}, indent=2))
-    else:
-        print("Provide --sig file")
+    except Exception as e:
+        print(f"Verify load failed: {e}", file=sys.stderr)
+        sys.exit(1)
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(prog="quantumarmor", description="QuantumArmor-Layer CLI v0.6")
+    parser = argparse.ArgumentParser(
+        prog="quantumarmor",
+        description="QuantumArmor-Layer CLI v0.7 — Hybrid Quantum-Proof for Bitcoin"
+    )
     sub = parser.add_subparsers(dest="cmd", required=True)
 
     p_gen = sub.add_parser("generate", help="Generate hybrid key")
