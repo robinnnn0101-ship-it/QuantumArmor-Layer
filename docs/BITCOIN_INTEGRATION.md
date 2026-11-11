@@ -1,4 +1,4 @@
-# Bitcoin Integration Sketches — QuantumArmor v0.7+
+# Bitcoin Integration Sketches — QuantumArmor v0.7.1
 
 Educational patterns only. Not production scripts.
 
@@ -6,9 +6,12 @@ Educational patterns only. Not production scripts.
 
 ```python
 from quantumarmor import HybridKeyManager
+from quantumarmor.utils import format_commitment
+
 km = HybridKeyManager.generate(n_leaves=16)
-commit = km.commitment_bytes()  # 32 bytes
-# Embed commit in OP_RETURN <commit>
+raw = km.commitment_bytes()
+print(format_commitment(raw))
+# Embed in OP_RETURN
 ```
 
 ## Taproot leaf sketch
