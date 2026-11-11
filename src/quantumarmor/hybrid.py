@@ -1,7 +1,7 @@
 """
 Hybrid Key Manager
 Classical secp256k1 ECDSA + Post-Quantum Lamport / Merkle-Lamport / WOTS
-v0.7 — next level hybrid sign, better exports, multi-use notes
+v0.7+ — enhanced helpers
 """
 
 from __future__ import annotations
@@ -21,7 +21,7 @@ class HybridPublicKey:
 
 
 class HybridKeyManager:
-    """Supports pure OTS, Merkle multi-use, or WOTS quantum path. v0.7 enhanced."""
+    """Supports pure OTS, Merkle multi-use, or WOTS quantum path."""
 
     def __init__(
         self,
@@ -108,7 +108,6 @@ class HybridKeyManager:
         return False
 
     def sign_hybrid(self, message: bytes, index: int | None = None) -> dict:
-        """Require both classical + quantum proofs (v0.7)."""
         return {
             "classical": self.sign_classical(message).hex(),
             "quantum": self.sign_quantum(message, index),
@@ -141,14 +140,18 @@ class HybridKeyManager:
             "classical_hash160_hex": self.classical_hash160().hex(),
             "lamport_fingerprint_hex": self._public.lamport_fingerprint.hex(),
             "mode": self.mode,
-            "version": "0.7.0",
+            "version": "0.7.1",
+            "remaining": self.remaining_quantum(),
         }
         if self._public.merkle_root:
             out["merkle_root_hex"] = self._public.merkle_root.hex()
         return out
 
     def export_commitment(self) -> str:
-        """Return the 32-byte commitment hex suitable for OP_RETURN or Taproot."""
         if self._public.merkle_root:
             return self._public.merkle_root.hex()
         return self._public.lamport_fingerprint.hex()
+
+    def commitment_bytes(self) -> bytes:
+        """Return raw 32-byte commitment."""
+        return bytes.fromhex(self.export_commitment())
