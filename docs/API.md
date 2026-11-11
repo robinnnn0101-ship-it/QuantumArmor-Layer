@@ -32,7 +32,7 @@ print(format_commitment(raw))
 
 ```bash
 quantumarmor generate --mode merkle --leaves 32
-# prints commitment and remaining to stderr
+# prints commitment, remaining, and status to stderr
 ```
 
 Educational reference — see source for full details.
