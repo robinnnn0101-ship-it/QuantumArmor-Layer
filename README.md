@@ -61,6 +61,7 @@ make test
 
 # CLI (v0.7.1+)
 quantumarmor generate --mode merkle --leaves 32
+# prints commitment, remaining, status
 quantumarmor sign --message "armor up" --hybrid
 ```
 
@@ -77,7 +78,8 @@ See [CHANGELOG.md](CHANGELOG.md) and [docs/](docs/) for details.
 
 - commitment_bytes() and pretty_public() helpers
 - remaining count and sign_count() in public export
-- CLI prints commitment + remaining
+- get_status() summary
+- CLI prints commitment + remaining + status
 - BITCOIN_INTEGRATION.md and SPHINCS_SKETCH.md
 - Edge case tests and format_commitment()
 - Improved WOTS, Merkle validation, persistence sketches (from 0.7.0)
