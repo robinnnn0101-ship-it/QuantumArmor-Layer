@@ -9,6 +9,7 @@
 - Edge case tests
 - pretty_public() and format_commitment()
 - get_version() classmethod
+- sign_count() tracker
 - Version 0.7.1
 
 ## v0.7.0
