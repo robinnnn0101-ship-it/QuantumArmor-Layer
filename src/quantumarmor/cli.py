@@ -19,9 +19,10 @@ def cmd_generate(args):
         print(json.dumps(pub, indent=2))
         print(f"Commitment: {km.export_commitment()}", file=sys.stderr)
         print(f"Remaining: {km.remaining_quantum()}", file=sys.stderr)
+        print(f"Status: {km.get_status()}", file=sys.stderr)
         if args.out:
             with open(args.out, "w") as f:
-                json.dump({"public": pub, "commitment": km.export_commitment(), "mode": args.mode}, f, indent=2)
+                json.dump({"public": pub, "commitment": km.export_commitment(), "status": km.get_status(), "mode": args.mode}, f, indent=2)
             print(f"Public info written to {args.out}", file=sys.stderr)
         return km
     except Exception as e:
@@ -39,7 +40,7 @@ def cmd_sign(args):
             sig = km.sign_hybrid(msg)
         else:
             sig = {"quantum": km.sign_quantum(msg)}
-        out = {"signature": sig, "public": km.export_public(), "message": args.message}
+        out = {"signature": sig, "public": km.export_public(), "status": km.get_status(), "message": args.message}
         print(json.dumps(out, indent=2, default=str))
         if args.out:
             with open(args.out, "w") as f:
