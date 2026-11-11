@@ -5,7 +5,7 @@
 ### Added
 - `commitment_bytes()` helper on HybridKeyManager
 - remaining count in export_public
-- CLI prints commitment and remaining on generate
+- CLI prints commitment, remaining, and status on generate
 - BITCOIN_INTEGRATION.md
 - SPHINCS_SKETCH.md
 - Edge case tests
