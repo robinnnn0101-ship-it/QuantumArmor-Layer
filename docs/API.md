@@ -16,6 +16,7 @@ raw = km.commitment_bytes()       # bytes
 print(km.mode)
 print(km.remaining_quantum())
 print(km.sign_count())
+km.reset_sign_count()             # educational only
 print(km.is_exhausted())
 ```
 
