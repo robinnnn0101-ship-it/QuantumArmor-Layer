@@ -15,5 +15,7 @@ v0.7.1 helpers:
 - sign_count() tracker
 - reset_sign_count() (educational, does not restore leaves)
 - get_status() compact summary
+- is_hybrid_capable() always true
+- export_status_json()
 
 See source for full flow.
