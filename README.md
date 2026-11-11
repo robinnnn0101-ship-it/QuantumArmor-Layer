@@ -58,28 +58,29 @@ python -m pytest tests/ -q
 # or
 make test
 
-# CLI (v0.6+)
+# CLI (v0.7+)
 quantumarmor generate --mode merkle --leaves 32
 quantumarmor sign --message "armor up" --hybrid
 ```
 
 ### Status
 
-- Educational + research-grade reference implementation (v0.6.0)
+- Educational + research-grade reference implementation (v0.7.0)
 - Pure Python, minimal external crypto dependency (`ecdsa`)
 - Designed so wallets, L2s, and custodians can integrate or harden it
-- Not production-hardened (no constant-time guarantees, no side-channel protection)
+- Not production-hardened (no constant-time guarantees, no side-channel protection) — see SECURITY.md for guidance
+- Next level: better multi-use foundations, side-channel notes, key handling sketches
 
 See [CHANGELOG.md](CHANGELOG.md) and [docs/](docs/) for details.
 
-### What’s new in v0.6
+### What’s new in v0.7
 
-- Full CLI (generate / sign / verify)
-- Hybrid signing (`sign_hybrid` requires both paths)
-- Benchmark utilities
-- Dockerfile
-- ROADMAP, COMPARISON, INTEGRATION guides
-- Enhanced serialization and tests
+- Version 0.7.0 next-level upgrades
+- Side-channel resistance guidance
+- Key persistence educational sketches
+- Improved multi-use and SPHINCS foundations notes
+- Enhanced docs and contribution scale
+- Better packaging and status
 
 ### Inspiration
 
