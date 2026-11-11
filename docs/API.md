@@ -16,6 +16,7 @@ commit = km.export_commitment()   # hex
 raw = km.commitment_bytes()       # bytes
 
 print(km.mode)
+print(km.is_hybrid_capable())
 print(km.remaining_quantum())
 print(km.sign_count())
 km.reset_sign_count()             # educational only
