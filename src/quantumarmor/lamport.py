@@ -2,6 +2,7 @@
 Lamport One-Time Signature + Merkle multi-use
 Security rests only on SHA-256 pre-image resistance.
 Immune to Shor's algorithm.
+v0.7: improved Merkle error handling and validation.
 """
 
 from __future__ import annotations
@@ -116,6 +117,8 @@ def build_merkle_tree(leaves: List[bytes]) -> List[List[bytes]]:
 
 def merkle_proof(levels: List[List[bytes]], index: int) -> List[Tuple[bytes, bool]]:
     """Return list of (sibling, is_right) from leaf to root."""
+    if not levels or index < 0 or index >= len(levels[0]):
+        raise ValueError("Invalid index for Merkle proof")
     proof = []
     idx = index
     for level in levels[:-1]:
@@ -150,6 +153,8 @@ class MerkleLamportKeyPair:
 
     @classmethod
     def generate(cls, n_leaves: int = 16) -> "MerkleLamportKeyPair":
+        if n_leaves < 1:
+            raise ValueError("n_leaves must be >= 1")
         keys = [LamportKeyPair.generate() for _ in range(n_leaves)]
         leaves = [k.fingerprint() for k in keys]
         levels = build_merkle_tree(leaves)
@@ -173,6 +178,8 @@ class MerkleLamportKeyPair:
                 index = self.used.index(False)
             except ValueError:
                 raise RuntimeError("All Merkle-Lamport leaves exhausted")
+        if not (0 <= index < self.n_leaves):
+            raise ValueError(f"Invalid leaf index: {index}")
         if self.used[index]:
             raise RuntimeError(f"Leaf {index} already used")
         self.used[index] = True
@@ -190,13 +197,16 @@ class MerkleLamportKeyPair:
 
     def verify(self, message: bytes, sig_bundle: Dict, root: Optional[bytes] = None) -> bool:
         root = root or self.root
-        proof = sig_bundle["proof"]
-        leaf_fp = sig_bundle["leaf_fingerprint"]
-        if not verify_merkle_proof(leaf_fp, proof, root):
+        try:
+            proof = sig_bundle["proof"]
+            leaf_fp = sig_bundle["leaf_fingerprint"]
+            if not verify_merkle_proof(leaf_fp, proof, root):
+                return False
+            idx = sig_bundle["index"]
+            if 0 <= idx < len(self.keys):
+                return self.keys[idx].verify(message, sig_bundle["lamport_sig"])
+        except (KeyError, TypeError, ValueError):
             return False
-        idx = sig_bundle["index"]
-        if idx < len(self.keys):
-            return self.keys[idx].verify(message, sig_bundle["lamport_sig"])
         return True
 
     def export_public(self) -> dict:
