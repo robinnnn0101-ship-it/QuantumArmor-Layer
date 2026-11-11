@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""v0.7.1 demo: WOTS size, Merkle validation, public persistence sketch, pretty print, sign_count."""
+"""v0.7.1 demo: WOTS size, Merkle validation, public persistence sketch, pretty print, sign_count, reset."""
 from quantumarmor import HybridKeyManager
 from quantumarmor.wots import WOTSKeyPair
 from quantumarmor.persistence import sketch_export_public_only, warning
@@ -25,6 +25,9 @@ print("Sign count:", km.sign_count())
 
 km.sign_quantum(b"demo")
 print("After one sign - remaining:", km.remaining_quantum(), "count:", km.sign_count())
+
+km.reset_sign_count()
+print("After reset - count:", km.sign_count())
 
 # Sketch export
 out = "/tmp/qa_pub.json"
