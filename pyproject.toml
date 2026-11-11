@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "quantumarmor-layer"
-version = "0.7.0"
-description = "Hybrid Quantum-Proof Layer for Bitcoin — by Vexlore (v0.7: improved multi-use, key persistence sketches, side-channel notes)"
+version = "0.7.1"
+description = "Hybrid Quantum-Proof Layer for Bitcoin — by Vexlore (v0.7.1: commitment helpers, better CLI, integration docs)"
 readme = "README.md"
 requires-python = ">=3.9"
 license = {text = "MIT"}
