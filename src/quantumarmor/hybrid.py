@@ -61,6 +61,14 @@ class HybridKeyManager:
     def public_key(self) -> HybridPublicKey:
         return self._public
 
+    @property
+    def mode(self) -> str:
+        if self._wots:
+            return "wots"
+        if self._merkle:
+            return "merkle"
+        return "lamport"
+
     def classical_hash160(self) -> bytes:
         return hash160(self._public.classical_pubkey)
 
@@ -124,12 +132,15 @@ class HybridKeyManager:
             return 1
         return 0
 
+    def is_exhausted(self) -> bool:
+        return self.remaining_quantum() == 0
+
     def export_public(self) -> dict:
         out = {
             "classical_pubkey_hex": self._public.classical_pubkey.hex(),
             "classical_hash160_hex": self.classical_hash160().hex(),
             "lamport_fingerprint_hex": self._public.lamport_fingerprint.hex(),
-            "mode": "wots" if self._wots else ("merkle" if self._merkle else "lamport"),
+            "mode": self.mode,
             "version": "0.7.0",
         }
         if self._public.merkle_root:
