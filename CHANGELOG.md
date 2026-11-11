@@ -5,15 +5,19 @@
 ### Added
 - `commitment_bytes()` helper on HybridKeyManager
 - remaining count in export_public
-- CLI prints commitment on generate
+- CLI prints commitment and remaining on generate
 - BITCOIN_INTEGRATION.md
 - SPHINCS_SKETCH.md
 - Edge case tests
+- pretty_public() helper
+- format_commitment() in utils
+- get_version() classmethod
 - Version bump to 0.7.1
 
 ### Changed
 - Export version string
 - Package version
+- Better error messages on exhausted keys
 
 ## [0.7.0] - 2026-11-11
 
