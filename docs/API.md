@@ -8,7 +8,7 @@ from quantumarmor import HybridKeyManager
 print(HybridKeyManager.get_version())  # 0.7.1
 
 km = HybridKeyManager.generate(n_leaves=16)
-pub = km.export_public()          # includes remaining, version, sign_count
+pub = km.export_public()          # includes remaining, version, sign_count, leaf_count
 print(km.pretty_public())         # indented JSON
 print(km.get_status())            # compact status dict
 print(km.export_status_json())    # pretty status JSON
@@ -16,6 +16,7 @@ commit = km.export_commitment()   # hex
 raw = km.commitment_bytes()       # bytes
 
 print(km.mode)
+print(km.leaf_count)
 print(km.is_hybrid_capable())
 print(km.remaining_quantum())
 print(km.sign_count())
