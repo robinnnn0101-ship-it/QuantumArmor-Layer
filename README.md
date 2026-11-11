@@ -52,6 +52,7 @@ pip install -r requirements.txt
 python examples/03_full_demo.py
 python examples/modes_demo.py
 python examples/benchmark.py
+python examples/v07_demo.py
 
 # Run tests
 python -m pytest tests/ -q
@@ -68,19 +69,19 @@ quantumarmor sign --message "armor up" --hybrid
 - Educational + research-grade reference implementation (v0.7.0)
 - Pure Python, minimal external crypto dependency (`ecdsa`)
 - Designed so wallets, L2s, and custodians can integrate or harden it
-- Not production-hardened (no constant-time guarantees, no side-channel protection) — see SECURITY.md for guidance
-- Next level: better multi-use foundations, side-channel notes, key handling sketches
+- Not production-hardened (no constant-time guarantees, no side-channel protection) — see SECURITY.md and SIDECHANNEL.md
 
 See [CHANGELOG.md](CHANGELOG.md) and [docs/](docs/) for details.
 
 ### What’s new in v0.7
 
-- Version 0.7.0 next-level upgrades
-- Side-channel resistance guidance
-- Key persistence educational sketches
-- Improved multi-use and SPHINCS foundations notes
-- Enhanced docs and contribution scale
-- Better packaging and status
+- Improved WOTS with size estimation and clearer constants
+- Stronger MerkleLamport validation and error handling
+- CLI v0.7 with better error handling
+- Educational persistence sketches (public only)
+- New tests and v07_demo.py
+- Utils / serialize helpers
+- Side-channel guidance and expanded docs
 
 ### Inspiration
 
