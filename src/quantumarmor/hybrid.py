@@ -83,6 +83,9 @@ class HybridKeyManager:
             return self._merkle.n_leaves
         return 1
 
+    def used_leaves_estimate(self) -> int:
+        return self.leaf_count - self.remaining_quantum()
+
     def is_hybrid_capable(self) -> bool:
         return True
 
@@ -166,6 +169,7 @@ class HybridKeyManager:
             "mode": self.mode,
             "version": self.get_version(),
             "remaining": self.remaining_quantum(),
+            "used_estimate": self.used_leaves_estimate(),
             "sign_count": self.sign_count(),
             "exhausted": self.is_exhausted(),
             "hybrid_capable": self.is_hybrid_capable(),
@@ -184,6 +188,7 @@ class HybridKeyManager:
             "mode": self.mode,
             "version": self.get_version(),
             "remaining": self.remaining_quantum(),
+            "used_estimate": self.used_leaves_estimate(),
             "sign_count": self.sign_count(),
             "leaf_count": self.leaf_count,
         }
