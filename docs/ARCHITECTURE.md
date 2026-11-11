@@ -18,5 +18,6 @@ v0.7.1 helpers:
 - is_hybrid_capable() always true
 - export_status_json()
 - leaf_count property (1 for OTS, N for Merkle)
+- used_leaves_estimate() = leaf_count - remaining
 
 See source for full flow.
