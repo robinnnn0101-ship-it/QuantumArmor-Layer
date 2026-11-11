@@ -6,5 +6,6 @@
 - `hybrid_sign_demo.py` — classical + quantum
 - `bitcoin_commit.py` — OP_RETURN sketch
 - `taproot_sketch.py` — leaf embedding sketch
+- `v07_demo.py` — WOTS size, Merkle validation, persistence sketch
 
 Run after `pip install -e .`
