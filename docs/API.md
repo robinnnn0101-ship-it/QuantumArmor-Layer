@@ -1,4 +1,4 @@
-# API Sketch — QuantumArmor-Layer
+# API Sketch — QuantumArmor-Layer v0.7
 
 ## HybridKeyManager
 
@@ -8,7 +8,7 @@ from quantumarmor import HybridKeyManager
 km = HybridKeyManager.generate(n_leaves=16)  # Merkle mode
 # or HybridKeyManager.generate(use_wots=True)
 
-pub = km.export_public()          # dict
+pub = km.export_public()          # dict with version 0.7.0
 commit = km.export_commitment()   # hex 32-byte
 
 # Classical
@@ -19,11 +19,29 @@ km.verify_classical(msg, sig_c)
 sig_q = km.sign_quantum(msg, index=0)
 km.verify_quantum(msg, sig_q)
 
-# Hybrid (v0.6+)
+# Hybrid
 hybrid = km.sign_hybrid(msg, index=0)
 km.verify_hybrid(msg, hybrid)
 
 print(km.remaining_quantum())
+```
+
+## WOTS helpers
+
+```python
+from quantumarmor.wots import WOTSKeyPair
+kp = WOTSKeyPair.generate()
+print(kp.estimated_sig_size())  # bytes
+sig = kp.sign(b"msg")
+print(sig.size_bytes)
+```
+
+## Persistence sketches (educational only)
+
+```python
+from quantumarmor.persistence import sketch_export_public_only, warning
+print(warning())
+sketch_export_public_only(km, "pub.json")
 ```
 
 ## CLI
