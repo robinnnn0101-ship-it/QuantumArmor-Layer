@@ -1,54 +1,34 @@
-# API Sketch — QuantumArmor-Layer v0.7
+# API Sketch — QuantumArmor-Layer v0.7.1
 
 ## HybridKeyManager
 
 ```python
 from quantumarmor import HybridKeyManager
 
-km = HybridKeyManager.generate(n_leaves=16)  # Merkle mode
-# or HybridKeyManager.generate(use_wots=True)
+print(HybridKeyManager.get_version())  # 0.7.1
 
-pub = km.export_public()          # dict with version 0.7.0
-commit = km.export_commitment()   # hex 32-byte
+km = HybridKeyManager.generate(n_leaves=16)
+pub = km.export_public()          # includes remaining, version
+commit = km.export_commitment()   # hex
+raw = km.commitment_bytes()       # bytes
 
-# Classical
-sig_c = km.sign_classical(msg)
-km.verify_classical(msg, sig_c)
-
-# Quantum
-sig_q = km.sign_quantum(msg, index=0)
-km.verify_quantum(msg, sig_q)
-
-# Hybrid
-hybrid = km.sign_hybrid(msg, index=0)
-km.verify_hybrid(msg, hybrid)
-
+print(km.mode)
 print(km.remaining_quantum())
+print(km.is_exhausted())
 ```
 
-## WOTS helpers
+## Utils
 
 ```python
-from quantumarmor.wots import WOTSKeyPair
-kp = WOTSKeyPair.generate()
-print(kp.estimated_sig_size())  # bytes
-sig = kp.sign(b"msg")
-print(sig.size_bytes)
-```
-
-## Persistence sketches (educational only)
-
-```python
-from quantumarmor.persistence import sketch_export_public_only, warning
-print(warning())
-sketch_export_public_only(km, "pub.json")
+from quantumarmor.utils import format_commitment
+print(format_commitment(raw))
 ```
 
 ## CLI
 
 ```bash
-quantumarmor generate --mode merkle --leaves 32 --out pub.json
-quantumarmor sign --message "text" --hybrid --out sig.json
+quantumarmor generate --mode merkle --leaves 32
+# prints commitment to stderr
 ```
 
 Educational reference — see source for full details.
