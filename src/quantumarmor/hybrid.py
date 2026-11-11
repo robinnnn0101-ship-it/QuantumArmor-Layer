@@ -162,6 +162,9 @@ class HybridKeyManager:
             "commitment": self.export_commitment(),
         }
 
+    def export_status_json(self) -> str:
+        return json.dumps(self.get_status(), indent=2)
+
     def export_public(self) -> dict:
         out = {
             "classical_pubkey_hex": self._public.classical_pubkey.hex(),
