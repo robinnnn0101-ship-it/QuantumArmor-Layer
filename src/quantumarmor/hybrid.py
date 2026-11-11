@@ -35,6 +35,7 @@ class HybridKeyManager:
         self._lamport = lamport
         self._merkle = merkle
         self._wots = wots
+        self._sign_count = 0
         vk = classical_sk.get_verifying_key()
         root = merkle.root if merkle else b""
         if wots:
@@ -99,6 +100,7 @@ class HybridKeyManager:
     def sign_quantum(self, message: bytes, index: int | None = None):
         if self.is_exhausted():
             raise RuntimeError(f"Quantum key exhausted in {self.mode} mode")
+        self._sign_count += 1
         if self._wots:
             return self._wots.sign(message)
         if self._merkle:
@@ -143,6 +145,9 @@ class HybridKeyManager:
     def is_exhausted(self) -> bool:
         return self.remaining_quantum() == 0
 
+    def sign_count(self) -> int:
+        return self._sign_count
+
     def export_public(self) -> dict:
         out = {
             "classical_pubkey_hex": self._public.classical_pubkey.hex(),
@@ -151,6 +156,7 @@ class HybridKeyManager:
             "mode": self.mode,
             "version": self.get_version(),
             "remaining": self.remaining_quantum(),
+            "sign_count": self.sign_count(),
         }
         if self._public.merkle_root:
             out["merkle_root_hex"] = self._public.merkle_root.hex()
