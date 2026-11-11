@@ -1,4 +1,5 @@
 # QuantumArmor-Layer Makefile v0.7.1
+# includes remaining_percent and status helpers
 .PHONY: test demo benchmark v07 clean install
 
 install:
