@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""v0.7 demo: WOTS size, Merkle validation, public persistence sketch."""
+"""v0.7.1 demo: WOTS size, Merkle validation, public persistence sketch, pretty print."""
 from quantumarmor import HybridKeyManager
 from quantumarmor.wots import WOTSKeyPair
 from quantumarmor.persistence import sketch_export_public_only, warning
@@ -18,7 +18,8 @@ print()
 
 # Merkle + hybrid
 km = HybridKeyManager.generate(n_leaves=8)
-print("Public:", km.export_public())
+print("Pretty public:")
+print(km.pretty_public())
 print("Remaining:", km.remaining_quantum())
 
 # Sketch export
