@@ -11,6 +11,7 @@
 - get_version() classmethod
 - sign_count() tracker
 - reset_sign_count() educational helper
+- get_status() summary helper
 - Version 0.7.1
 
 ## v0.7.0
