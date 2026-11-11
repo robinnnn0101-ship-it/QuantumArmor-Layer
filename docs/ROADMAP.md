@@ -18,6 +18,7 @@
 - used_leaves_estimate() helper
 - remaining_percent() helper
 - is_low_remaining() helper
+- needs_rotation() helper
 - Version 0.7.1
 
 ## v0.7.0

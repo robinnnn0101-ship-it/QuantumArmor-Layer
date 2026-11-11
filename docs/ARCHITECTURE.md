@@ -21,5 +21,6 @@ v0.7.1 helpers:
 - used_leaves_estimate() = leaf_count - remaining
 - remaining_percent() helper
 - is_low_remaining() warning helper (default 25%)
+- needs_rotation() helper
 
 See source for full flow.
