@@ -1,7 +1,7 @@
 """
 Hybrid Key Manager
 Classical secp256k1 ECDSA + Post-Quantum Lamport / Merkle-Lamport / WOTS
-v0.7+ — enhanced helpers
+v0.7.1+
 """
 
 from __future__ import annotations
@@ -50,12 +50,18 @@ class HybridKeyManager:
 
     @classmethod
     def generate(cls, n_leaves: int = 1, use_wots: bool = False) -> "HybridKeyManager":
+        if n_leaves < 1:
+            raise ValueError("n_leaves must be positive")
         sk = SigningKey.generate(curve=SECP256k1)
         if use_wots:
             return cls(sk, wots=WOTSKeyPair.generate())
         if n_leaves <= 1:
             return cls(sk, lamport=LamportKeyPair.generate())
         return cls(sk, merkle=MerkleLamportKeyPair.generate(n_leaves))
+
+    @classmethod
+    def get_version(cls) -> str:
+        return "0.7.1"
 
     @property
     def public_key(self) -> HybridPublicKey:
@@ -90,6 +96,8 @@ class HybridKeyManager:
             return False
 
     def sign_quantum(self, message: bytes, index: int | None = None):
+        if self.is_exhausted():
+            raise RuntimeError(f"Quantum key exhausted in {self.mode} mode")
         if self._wots:
             return self._wots.sign(message)
         if self._merkle:
@@ -140,7 +148,7 @@ class HybridKeyManager:
             "classical_hash160_hex": self.classical_hash160().hex(),
             "lamport_fingerprint_hex": self._public.lamport_fingerprint.hex(),
             "mode": self.mode,
-            "version": "0.7.1",
+            "version": self.get_version(),
             "remaining": self.remaining_quantum(),
         }
         if self._public.merkle_root:
@@ -153,5 +161,4 @@ class HybridKeyManager:
         return self._public.lamport_fingerprint.hex()
 
     def commitment_bytes(self) -> bytes:
-        """Return raw 32-byte commitment."""
         return bytes.fromhex(self.export_commitment())
