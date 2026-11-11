@@ -3,10 +3,12 @@
 ## v0.7.1 (current)
 - commitment_bytes() helper
 - remaining in export
-- CLI commitment print
+- CLI prints commitment + remaining
 - BITCOIN_INTEGRATION.md
 - SPHINCS_SKETCH.md
 - Edge case tests
+- pretty_public() and format_commitment()
+- get_version() classmethod
 - Version 0.7.1
 
 ## v0.7.0
