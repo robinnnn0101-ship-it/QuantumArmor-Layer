@@ -94,6 +94,9 @@ class HybridKeyManager:
     def is_low_remaining(self, threshold: float = 25.0) -> bool:
         return self.remaining_percent() <= threshold
 
+    def needs_rotation(self) -> bool:
+        return self.is_low_remaining() or self.is_exhausted()
+
     def is_hybrid_capable(self) -> bool:
         return True
 
@@ -179,6 +182,7 @@ class HybridKeyManager:
             "remaining": self.remaining_quantum(),
             "remaining_percent": round(self.remaining_percent(), 1),
             "low_remaining": self.is_low_remaining(),
+            "needs_rotation": self.needs_rotation(),
             "used_estimate": self.used_leaves_estimate(),
             "sign_count": self.sign_count(),
             "exhausted": self.is_exhausted(),
@@ -200,6 +204,7 @@ class HybridKeyManager:
             "remaining": self.remaining_quantum(),
             "remaining_percent": round(self.remaining_percent(), 1),
             "low_remaining": self.is_low_remaining(),
+            "needs_rotation": self.needs_rotation(),
             "used_estimate": self.used_leaves_estimate(),
             "sign_count": self.sign_count(),
             "leaf_count": self.leaf_count,
