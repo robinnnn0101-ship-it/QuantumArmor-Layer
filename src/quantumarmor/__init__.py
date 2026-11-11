@@ -1,6 +1,6 @@
 """QuantumArmor-Layer — Hybrid Quantum-Proof Layer for Bitcoin"""
 
-__version__ = "0.6.0"
+__version__ = "0.7.0"
 
 from .hybrid import HybridKeyManager, HybridPublicKey
 from .lamport import LamportKeyPair, MerkleLamportKeyPair
