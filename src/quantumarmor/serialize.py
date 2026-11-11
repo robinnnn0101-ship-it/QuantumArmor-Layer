@@ -1,8 +1,9 @@
-"""Serialization helpers (educational, v0.6)."""
+"""Serialization helpers (educational, v0.7)."""
 
 from __future__ import annotations
 import json
 from typing import Any, Dict
+from .utils import to_hex, from_hex
 
 
 def to_json(obj: Any) -> str:
@@ -11,16 +12,21 @@ def to_json(obj: Any) -> str:
 
 
 def commitment_bytes(hex_str: str) -> bytes:
-    return bytes.fromhex(hex_str)
+    return from_hex(hex_str)
 
 
 def public_to_dict(pub: Any) -> Dict[str, Any]:
     """Normalize HybridPublicKey or export dict."""
     if hasattr(pub, "__dict__"):
-        return {k: v.hex() if isinstance(v, bytes) else v for k, v in pub.__dict__.items()}
+        return {k: to_hex(v) if isinstance(v, bytes) else v for k, v in pub.__dict__.items()}
     return dict(pub)
 
 
 def save_public(path: str, data: Dict[str, Any]) -> None:
     with open(path, "w") as f:
         json.dump(data, f, indent=2)
+
+
+def load_public(path: str) -> Dict[str, Any]:
+    with open(path) as f:
+        return json.load(f)
