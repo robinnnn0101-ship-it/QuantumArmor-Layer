@@ -11,6 +11,7 @@ from ecdsa import SigningKey, SECP256k1
 from .lamport import LamportKeyPair, LamportSignature, MerkleLamportKeyPair
 from .wots import WOTSKeyPair, WOTSSignature
 from .utils import sha256, hash160
+import json
 
 
 @dataclass(frozen=True)
@@ -154,6 +155,9 @@ class HybridKeyManager:
         if self._public.merkle_root:
             out["merkle_root_hex"] = self._public.merkle_root.hex()
         return out
+
+    def pretty_public(self) -> str:
+        return json.dumps(self.export_public(), indent=2)
 
     def export_commitment(self) -> str:
         if self._public.merkle_root:
