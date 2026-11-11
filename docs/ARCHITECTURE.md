@@ -17,5 +17,6 @@ v0.7.1 helpers:
 - get_status() compact summary
 - is_hybrid_capable() always true
 - export_status_json()
+- leaf_count property (1 for OTS, N for Merkle)
 
 See source for full flow.
