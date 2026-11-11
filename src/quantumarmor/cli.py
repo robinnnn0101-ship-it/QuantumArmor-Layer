@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 """
-QuantumArmor CLI v0.7
-Usage:
-  quantumarmor generate --mode merkle --leaves 16
-  quantumarmor sign --message "hello" --hybrid
-  quantumarmor verify --message "hello" --sig sig.json
+QuantumArmor CLI v0.7.1
 """
 
 from __future__ import annotations
@@ -21,9 +17,10 @@ def cmd_generate(args):
         km = HybridKeyManager.generate(n_leaves=n, use_wots=use_wots)
         pub = km.export_public()
         print(json.dumps(pub, indent=2))
+        print(f"Commitment: {km.export_commitment()}", file=sys.stderr)
         if args.out:
             with open(args.out, "w") as f:
-                json.dump({"public": pub, "mode": args.mode}, f, indent=2)
+                json.dump({"public": pub, "commitment": km.export_commitment(), "mode": args.mode}, f, indent=2)
             print(f"Public info written to {args.out}", file=sys.stderr)
         return km
     except Exception as e:
@@ -33,7 +30,6 @@ def cmd_generate(args):
 
 def cmd_sign(args):
     try:
-        # Educational: regenerate for demo (real use loads key)
         n = args.leaves if args.mode == "merkle" else 1
         use_wots = args.mode == "wots"
         km = HybridKeyManager.generate(n_leaves=n, use_wots=use_wots)
@@ -69,7 +65,7 @@ def cmd_verify(args):
 def main(argv=None):
     parser = argparse.ArgumentParser(
         prog="quantumarmor",
-        description="QuantumArmor-Layer CLI v0.7 — Hybrid Quantum-Proof for Bitcoin"
+        description="QuantumArmor-Layer CLI v0.7.1 — Hybrid Quantum-Proof for Bitcoin"
     )
     sub = parser.add_subparsers(dest="cmd", required=True)
 
