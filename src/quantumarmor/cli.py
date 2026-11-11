@@ -18,6 +18,7 @@ def cmd_generate(args):
         pub = km.export_public()
         print(json.dumps(pub, indent=2))
         print(f"Commitment: {km.export_commitment()}", file=sys.stderr)
+        print(f"Remaining: {km.remaining_quantum()}", file=sys.stderr)
         if args.out:
             with open(args.out, "w") as f:
                 json.dump({"public": pub, "commitment": km.export_commitment(), "mode": args.mode}, f, indent=2)
