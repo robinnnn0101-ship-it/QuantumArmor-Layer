@@ -77,6 +77,9 @@ class HybridKeyManager:
             return "merkle"
         return "lamport"
 
+    def is_hybrid_capable(self) -> bool:
+        return True  # always has classical + quantum path
+
     def classical_hash160(self) -> bytes:
         return hash160(self._public.classical_pubkey)
 
@@ -159,6 +162,7 @@ class HybridKeyManager:
             "remaining": self.remaining_quantum(),
             "sign_count": self.sign_count(),
             "exhausted": self.is_exhausted(),
+            "hybrid_capable": self.is_hybrid_capable(),
             "commitment": self.export_commitment(),
         }
 
