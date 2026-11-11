@@ -20,5 +20,6 @@ v0.7.1 helpers:
 - leaf_count property (1 for OTS, N for Merkle)
 - used_leaves_estimate() = leaf_count - remaining
 - remaining_percent() helper
+- is_low_remaining() warning helper (default 25%)
 
 See source for full flow.
