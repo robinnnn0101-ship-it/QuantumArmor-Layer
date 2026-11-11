@@ -152,6 +152,16 @@ class HybridKeyManager:
         """Educational reset only. Does not restore used leaves."""
         self._sign_count = 0
 
+    def get_status(self) -> dict:
+        return {
+            "mode": self.mode,
+            "version": self.get_version(),
+            "remaining": self.remaining_quantum(),
+            "sign_count": self.sign_count(),
+            "exhausted": self.is_exhausted(),
+            "commitment": self.export_commitment(),
+        }
+
     def export_public(self) -> dict:
         out = {
             "classical_pubkey_hex": self._public.classical_pubkey.hex(),
