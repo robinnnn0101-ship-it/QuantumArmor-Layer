@@ -1,4 +1,7 @@
-.PHONY: test demo benchmark v07 clean
+.PHONY: test demo benchmark v07 clean install
+
+install:
+	pip install -e .
 
 test:
 	python -m pytest tests/ -q
