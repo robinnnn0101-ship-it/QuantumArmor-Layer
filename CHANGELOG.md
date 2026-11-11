@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.7.0] - 2026-11-11
+
+### Added
+- Version bump to 0.7.0 - next level upgrades
+- Key persistence sketches (educational load/save patterns)
+- Improved multi-use notes and SPHINCS-like sketch foundations
+- Side-channel resistance guidance in docs
+- Enhanced CLI with better key handling sketches
+- More contribution markers and polish for scale
+- Updated performance and security notes
+
+### Changed
+- HybridKeyManager and exports to 0.7.0
+- README status and quick start for v0.7
+- Packaging description
+
 ## [0.6.0] - 2026-11-07
 
 ### Added
