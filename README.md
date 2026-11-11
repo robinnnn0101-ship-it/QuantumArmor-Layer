@@ -76,7 +76,7 @@ See [CHANGELOG.md](CHANGELOG.md) and [docs/](docs/) for details.
 ### What’s new in v0.7.1
 
 - commitment_bytes() and pretty_public() helpers
-- remaining count in public export
+- remaining count and sign_count() in public export
 - CLI prints commitment + remaining
 - BITCOIN_INTEGRATION.md and SPHINCS_SKETCH.md
 - Edge case tests and format_commitment()
