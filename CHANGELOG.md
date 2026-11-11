@@ -13,6 +13,7 @@
 - format_commitment() in utils
 - get_version() classmethod
 - sign_count() tracker
+- reset_sign_count() educational helper
 - Version bump to 0.7.1
 
 ### Changed
