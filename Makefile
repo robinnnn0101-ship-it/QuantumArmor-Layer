@@ -1,22 +1,17 @@
-.PHONY: test install clean demo bench docker
-
-install:
-	pip install -e .[test]
+.PHONY: test demo benchmark v07 clean
 
 test:
-	pytest tests/ -q
+	python -m pytest tests/ -q
 
 demo:
-	python examples/modes_demo.py
+	python examples/03_full_demo.py
 
-bench:
+benchmark:
 	python examples/benchmark.py
 
-docker:
-	docker build -t quantumarmor .
-	docker run --rm quantumarmor
+v07:
+	python examples/v07_demo.py
 
 clean:
 	find . -type d -name __pycache__ -exec rm -rf {} +
-	find . -type f -name "*.pyc" -delete
-	rm -rf .pytest_cache dist build *.egg-info
+	find . -type f -name '*.pyc' -delete
