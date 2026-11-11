@@ -3,7 +3,7 @@
 ## v0.7.1 (current)
 - commitment_bytes() helper
 - remaining in export
-- CLI prints commitment + remaining
+- CLI prints commitment + remaining + status
 - BITCOIN_INTEGRATION.md
 - SPHINCS_SKETCH.md
 - Edge case tests
