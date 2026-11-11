@@ -1,5 +1,6 @@
 """
 Cryptographic helpers
+v0.7: added hex convenience helpers
 """
 
 import hashlib
@@ -24,3 +25,15 @@ def hash160(data: bytes) -> bytes:
 
 def sha256d(data: bytes) -> bytes:
     return sha256(sha256(data))
+
+
+def to_hex(data: bytes) -> str:
+    return data.hex()
+
+
+def from_hex(h: str) -> bytes:
+    return bytes.fromhex(h)
+
+
+def constant_time_note() -> str:
+    return "Educational: comparisons and hashing are not constant-time. See SIDECHANNEL.md."
