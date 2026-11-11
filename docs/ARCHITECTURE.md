@@ -13,5 +13,6 @@ v0.7.1 helpers:
 - commitment_bytes() for raw 32-byte
 - remaining tracking
 - sign_count() tracker
+- reset_sign_count() (educational, does not restore leaves)
 
 See source for full flow.
