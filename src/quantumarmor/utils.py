@@ -1,6 +1,6 @@
 """
 Cryptographic helpers
-v0.7: added hex convenience helpers
+v0.7.1+: hex and commitment formatting
 """
 
 import hashlib
@@ -33,6 +33,13 @@ def to_hex(data: bytes) -> str:
 
 def from_hex(h: str) -> bytes:
     return bytes.fromhex(h)
+
+
+def format_commitment(commit: bytes) -> str:
+    """Pretty hex for 32-byte commitment."""
+    if len(commit) != 32:
+        raise ValueError("Commitment must be 32 bytes")
+    return commit.hex()
 
 
 def constant_time_note() -> str:
