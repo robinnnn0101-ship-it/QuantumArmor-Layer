@@ -10,6 +10,7 @@ print(HybridKeyManager.get_version())  # 0.7.1
 km = HybridKeyManager.generate(n_leaves=16)
 pub = km.export_public()          # includes remaining, version, sign_count
 print(km.pretty_public())         # indented JSON
+print(km.get_status())            # compact status dict
 commit = km.export_commitment()   # hex
 raw = km.commitment_bytes()       # bytes
 
