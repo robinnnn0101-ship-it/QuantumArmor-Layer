@@ -12,5 +12,6 @@ v0.7.1 helpers:
 - pretty_public() for readable export
 - commitment_bytes() for raw 32-byte
 - remaining tracking
+- sign_count() tracker
 
 See source for full flow.
