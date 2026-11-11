@@ -14,5 +14,6 @@ v0.7.1 helpers:
 - remaining tracking
 - sign_count() tracker
 - reset_sign_count() (educational, does not restore leaves)
+- get_status() compact summary
 
 See source for full flow.
