@@ -12,6 +12,7 @@
 - sign_count() tracker
 - reset_sign_count() educational helper
 - get_status() summary helper
+- export_status_json() helper
 - Version 0.7.1
 
 ## v0.7.0
